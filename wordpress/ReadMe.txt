@@ -2,12 +2,12 @@
 # I hope you enjoy it!
 # Linkedin|Github: @ZahedHosseini
 
-# You should to copy your fresh WordPress files in './wordpress' directory.
+# You should to copy your WordPress files in './wordpress' directory.
 
 # Docker Commands:
-# For first one to pull images : docker compose up -d --build
-# For restart and Build Containers : docker compose up -d
-# For see witch Containers are running : docker compose ps
+# Pull images : docker compose up -d --build
+# Restart and Build Containers : docker compose up -d
+# Witch Containers are running : docker compose ps
 .....................................................................................
 .....................................................................................
 .....................................................................................
@@ -22,13 +22,13 @@
 .....................................................................................
 .....................................................................................
 .....................................................................................
-Open: ./wordpress/wp-config.php :
+Open: ./wordpress/wp-config.php:
 
 # Disable FTP Connection for uploading:
 # Set -> define('FS_METHOD','direct');
 # Set -> define('FTP_SSL', true); (if you dont use SSL set it to 'false').
 
-# Define username and password to do not ask anytime:
+# Define username and password:
 # Set -> define('FTP_HOST', 'localhost');
 # Set -> define('FTP_USER', 'FTP_Username');
 # Set -> define('FTP_PASS', 'FTP_Password');
