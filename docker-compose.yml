@@ -1,0 +1,87 @@
+# Linkedin|Github: @ZahedHosseini
+
+version: '4.12'
+
+networks:
+  wptest:
+
+services:
+
+  #NGINX
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./wordpress:/var/www/test:delegated
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - wptest 
+
+  #MYSQL
+  mysql:
+    image: mysql:5.7.29
+    container_name: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: wp
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql 
+    volumes:
+    # To Sync and Copy MYSQL Database to './mysql' directory.
+      - ./mysql:/var/lib/mysql
+    networks:
+      - wptest  
+
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: mysql
+      # ROOT_USER: root (it's default)
+      MYSQL_ROOT_PASSWORD: secret 
+    networks:
+      - wptest    
+
+  #PHP
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: php
+    volumes:
+      - ./wordpress:/var/www/test:delegated
+    networks:
+      - wptest
+
+
+  # To install the latest wordpress image, otherwise you should to copy your fresh wordpress files in './wordpress' directory.
+  # wordpress:
+  #   depends_on:
+  #     - mysql
+  #   image: wordpress:latest
+  #   ports:
+  #     - '8000:80'
+  #   restart: always
+  #   volumes: ['./wordpress/:/var/www/test']
+  #   environment:
+  #     WORDPRESS_DB_HOST: mysql:3306
+  #     WORDPRESS_DB_USER: wp
+  #     WORDPRESS_DB_PASSWORD: secret
+  #   networks:
+  #     - wptest      
